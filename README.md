@@ -1,24 +1,49 @@
-# README
+#テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+##users テーブル
 
-Things you may want to cover:
+| Column     | Type        | Option       |
+|:-----------|------------:|:------------:|
+| name       | string      | null: false  |
+| email      | string      | null: false  |
+| password   | string      | null: false  |
 
-* Ruby version
+###Association
+-has_many :room_users
+-has_many :message
+-has_many :rooms, thorough: room_users
 
-* System dependencies
 
-* Configuration
+##roomテーブル
 
-* Database creation
+| Column     | Type        | Option       |
+|:-----------|------------:|:------------:|
+| name       | string      | null: false  |
 
-* Database initialization
+###Association
+-has_many :messages
+-has_many :users,thorough: room_users
+-has_many :room_users
+##room_userテーブル
 
-* How to run the test suite
+| Column     | Type        | Option                         |
+|:-----------|------------:|:------------------------------:|
+| user       | references  | null: false,foreign_key: true  |
+| room       | references  | null: false,foreign_key: true  |
 
-* Services (job queues, cache servers, search engines, etc.)
+###Association
 
-* Deployment instructions
+belongs_to  :room
+belongs_to  :user
 
-* ...
+##messagesテーブル
+
+ Column     | Type         | Option                            |
+|:-----------|------------:|:--------------------------------:|
+| content    | string      | null: false ,foreign_key: true   | 
+| user       |references   | null: false, foreign_key: true  |
+| room       | references  | null: false, foreign_key:true|
+
+###Association
+belongs_to :room
+belongs_to :user
